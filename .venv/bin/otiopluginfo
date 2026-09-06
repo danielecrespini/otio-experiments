@@ -1,0 +1,6 @@
+#!/Users/daniele/Documents/Development/otio-experiments/.venv/bin/python
+import sys
+from opentimelineio.console.otiopluginfo import main
+if __name__ == '__main__':
+    sys.argv[0] = sys.argv[0].removesuffix('.exe')
+    sys.exit(main())
