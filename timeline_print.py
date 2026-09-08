@@ -8,20 +8,25 @@ path = sys.argv[1]
 timeline = otio.adapters.read_from_file(path)
 
 # Get the video track v1 and print the clips
-video_track = timeline.video_tracks()
+video_tracks = timeline.video_tracks() #video_tracks because is a list of tracks
 
-if video_track:
-    v1 = video_track[0]
+if not video_tracks:
+    print(f"No valid video tracks in {path}")
+    sys.exit()
 
-    for clip in v1:
-        if isinstance(clip, otio.schema.Clip):
-            range_in_track = v1.range_of_child(clip)
-            last_frame = (
-                range_in_track.end_time_exclusive())
+v1 = video_tracks[0]
 
-            print( 
-                f"{clip.name} " 
-                f"- Timecode in: {range_in_track.start_time.to_timecode(rate=24)} " 
-                f"- Timecode out: {last_frame.to_timecode()} " 
-                f"- Source: {clip.source_range}" 
-            )
+for clip in v1:
+    if not isinstance(clip, otio.schema.Clip):
+        continue
+
+    range_in_track = v1.range_of_child(clip)
+    last_frame = (
+        range_in_track.end_time_exclusive())
+
+    print( 
+        f"{clip.name} " 
+        f"- Timecode in: {range_in_track.start_time.to_timecode()} " 
+        f"- Timecode out: {last_frame.to_timecode()} " 
+        f"- Source: {clip.source_range}" 
+    )
