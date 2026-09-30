@@ -1,0 +1,2 @@
+Write a function that creates a 24fps timeline with 5 video clips, all of them on V1 and all of them 30 frames long.
+Also add a single audio clip on A1 that is as long as the 5 video clips combined.

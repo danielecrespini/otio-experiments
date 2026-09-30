@@ -1,11 +1,8 @@
-import sys
+import argparse
 import opentimelineio as otio
 
 
-def main():
-    # Get the OTIO file path from the command line
-    path = sys.argv[1]
-
+def main(path):
     # Load the OTIO file
     timeline = otio.adapters.read_from_file(path)
 
@@ -14,7 +11,7 @@ def main():
 
     if not video_tracks:
         print(f"No valid video tracks in {path}")
-        sys.exit()
+        return
 
     v1 = video_tracks[0]
 
@@ -35,4 +32,8 @@ def main():
 
 
 if __name__=="__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Print clips from an OTIO timeline",
+                                     epilog="Have fun")
+    parser.add_argument("path", help="Path to the OTIO timeline file")
+    args = parser.parse_args()
+    main(args.path) 
